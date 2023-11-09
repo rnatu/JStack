@@ -25,6 +25,7 @@ const server = http.createServer((request, response) => {
 
   if (route) {
     request.query = Object.fromEntries(parsedUrl.searchParams);
+    console.log(parsedUrl.searchParams)
     request.params = { id };
 
     response.send = (statusCode, body) => {
