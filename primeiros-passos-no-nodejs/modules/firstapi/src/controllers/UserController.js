@@ -68,8 +68,12 @@ module.exports = {
     let { id } = request.params;
     id = Number(id);
 
-    users = users.filter((user) => user.id !== id);
+    const userExists = users.find((user) => user.id === id);
 
-    response.send(200, { deleted: true });
+    if (userExists) {
+      users = users.filter((user) => user.id !== id);
+      return response.send(200, { deleted: true });
+    }
+    return response.send(400, { error: "User not found" });
   },
 };
