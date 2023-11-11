@@ -36,8 +36,7 @@ const server = http.createServer((request, response) => {
       route.handler(request, response);
     }
   } else {
-    response.writeHead(404, { "Content-Type": "text/html" });
-    response.end(`Cannot ${request.method} ${parsedUrl.pathname}`);
+    response.send(404, `Cannot ${request.method} ${parsedUrl.pathname}`);
   }
 });
 
