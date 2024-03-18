@@ -21,7 +21,9 @@ let contacts = [
 class ContactsRepository {
   async findAll(orderBy = 'ASC') {
     const ordering = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
-    const rows = await db.query(`SELECT * FROM contacts ORDER BY name ${ordering}`);
+    const rows = await db.query(
+      `SELECT * FROM contacts ORDER BY name ${ordering}`,
+    );
     return rows;
   }
 
@@ -50,22 +52,20 @@ class ContactsRepository {
     return row;
   }
 
-  update(id, {
+  async update(id, {
     name, email, phone, category_id,
   }) {
-    return new Promise((resolve) => {
-      const updatedContact = {
-        id,
-        name,
-        email,
-        phone,
-        category_id,
-      };
+    const [row] = await db.query(
+      `
+        UPDATE contacts
+        SET name = $1, email = $2, phone = $3, category_id = $4
+        WHERE id = $5
+        RETURNING name, email, phone
+      `,
+      [name, email, phone, category_id, id],
+    );
 
-      contacts = contacts.map((contact) => (contact.id === id ? updatedContact : contact));
-
-      resolve(updatedContact);
-    });
+    return row;
   }
 
   delete(id) {
