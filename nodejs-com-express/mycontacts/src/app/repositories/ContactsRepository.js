@@ -5,7 +5,7 @@ class ContactsRepository {
     const ordering = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
     const rows = await db.query(
       `
-      SELECT *
+      SELECT contacts.*, categories.name AS category_name
       FROM contacts
       JOIN categories ON categories.id = contacts.category_id
       ORDER BY contacts.name ${ordering}
