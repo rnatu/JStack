@@ -48,10 +48,10 @@ class CategoriesRepository {
   async update(id, { name }) {
     const [row] = await db.query(
       `
-        UPDATE contacts
-        SET name = $1, email = $2, phone = $3, category_id = $4
-        WHERE id = $5
-        RETURNING name, email, phone
+        UPDATE categories
+        SET name = $1
+        WHERE id = $2
+        RETURNING name
       `,
       [name, id],
     );

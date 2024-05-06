@@ -33,12 +33,14 @@ class CategoryController {
       return response.status(404).json({ error: 'Category not found' });
     }
 
-    const nameIsAreadyInUse = await CategoriesRepository.findByName(name);
-    if (nameIsAreadyInUse) {
+    const nameIsAlreadyInUse = await CategoriesRepository.findByName(name);
+    if (nameIsAlreadyInUse) {
       return response.status(404).json({ error: 'Name is already in use' });
     }
 
-    response.json(categoryExists);
+    const category = await CategoriesRepository.update(id, { name });
+
+    response.json(category);
   }
 }
 
