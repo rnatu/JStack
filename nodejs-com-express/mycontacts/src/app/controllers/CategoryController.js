@@ -15,6 +15,14 @@ class CategoryController {
     response.json(category);
   }
 
+  async delete(request, response) {
+    const { id } = request.params;
+
+    await CategoriesRepository.delete(id);
+    // 204: No content
+    response.sendStatus(204);
+  }
+
   async store(request, response) {
     const { name } = request.body;
 
